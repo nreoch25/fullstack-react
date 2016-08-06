@@ -1,11 +1,29 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import falcorModel from "../falcorModel";
+import { bindActionCreators } from "redux";
+import articleActions from "../actions/article.js";
 const mapStateToProps = (state) => ({ ...state });
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  articleActions: bindActionCreators(articleActions, dispatch)
+});
 
 class PublishingApp extends Component {
   constructor(props) {
     super(props);
+  }
+  componentWillMount() {
+    this._fetch();
+  }
+  async _fetch() {
+    let articlesLength = await falcorModel.getValue("articles.length").then(function(length) {
+      return length;
+    });
+    let articles = await falcorModel.get(["articles", {from: 0, to: articlesLength -1},
+    ["id", "articleTitle", "articleContent"]]).then(function(articlesResponse) {
+      return articlesResponse.json.articles;
+    });
+    this.props.articleActions.articlesList(articles);
   }
   render () {
     let articlesJSX = [];
