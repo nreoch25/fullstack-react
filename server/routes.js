@@ -1,14 +1,9 @@
-import mongoose from "mongoose";
-mongoose.connect("mongodb://localhost:27017/fullstack", function(err) {
-  if(err) { console.log("Not connected to mongo"); } else { console.log("Connected to mongo"); }
-});
-var articleSchema = {
-  articleTitle:String,
-  articleContent:String
-};
-var Article = mongoose.model("Article", articleSchema, "articles")
+import configMongoose from "./configMongoose";
+let Article = configMongoose.Article;
+import sessionRoutes from "./routesSession";
 
 let PublishingAppRoutes = [
+  ...sessionRoutes,
   {
     route: 'articles.length',
       get: () => {
