@@ -2,17 +2,11 @@ import http from "http";
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-import mongoose from "mongoose";
 import falcor from "falcor";
 import falcorExpress from "falcor-express";
-mongoose.connect("mongodb://localhost:27017/fullstack", function(err) {
-  if(err) { console.log("Not connected to mongo"); } else { console.log("Connected to mongo"); }
-});
-var articleSchema = {
-  articleTitle:String,
-  articleContent:String
-};
-var Article = mongoose.model("Article", articleSchema, "articles")
+import Router from "falcor-router";
+import routes from "./routes";
+
 var app = express();
 app.server = http.createServer(app);
 // CORS - 3rd party middleware
@@ -33,9 +27,9 @@ let cache = {
     }
   ]
 };
-var model = new falcor.Model({ "cache": cache });
+var model = new falcor.Model({ cache: cache });
 app.use("/model.json", falcorExpress.dataSourceRoute(function(req, res) {
-  return model.asDataSource();
+  return new Router(routes);
 }));
 app.use(express.static("dist"));
 app.get("/", (req, res) => {
