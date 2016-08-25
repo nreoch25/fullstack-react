@@ -1,12 +1,12 @@
 import React from "react";
 import { render } from "react-dom";
-import { Provider } from "react-redux";
-import { createStore } from "redux";
-import article from "./reducers/article";
-import PublishingApp from "./layouts/PublishingApp";
-let store = createStore(article);
-render(
-  <Provider store={store}>
-    <PublishingApp />
-  </Provider>, document.getElementById("publishingAppRoot")
-);
+import { browserHistory } from "react-router";
+import Root from "./containers/Root";
+import configureStore from "./store/configureStore";
+const target = document.getElementById("publishingAppRoot");
+const history = browserHistory;
+const store = configureStore(window.__INITIAL_STATE__);
+const node = (
+  <Root history={history} store={store} />
+)
+render(node, target);
