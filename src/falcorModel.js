@@ -11,7 +11,7 @@ let cache = {
     {
       id: 123456,
       articleTitle: "Lorem ipsum - article two from backend",
-      articleContent: "Sky is the limit, the content goes here."
+      articleContent: "Sky is the limit, the content goes here. Romo gets hurt"
     }
   ]
 };
