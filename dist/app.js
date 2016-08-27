@@ -8149,7 +8149,7 @@
 
 	var _Root2 = _interopRequireDefault(_Root);
 
-	var _configureStore = __webpack_require__(1092);
+	var _configureStore = __webpack_require__(1095);
 
 	var _configureStore2 = _interopRequireDefault(_configureStore);
 
@@ -36915,13 +36915,23 @@
 
 	var _LoginView2 = _interopRequireDefault(_LoginView);
 
+	var _DashboardView = __webpack_require__(1092);
+
+	var _DashboardView2 = _interopRequireDefault(_DashboardView);
+
+	var _RegisterView = __webpack_require__(1093);
+
+	var _RegisterView2 = _interopRequireDefault(_RegisterView);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = _react2.default.createElement(
 	  _reactRouter.Route,
 	  { component: _Corelayout2.default, path: "/" },
 	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _PublishingApp2.default, name: "home" }),
-	  _react2.default.createElement(_reactRouter.Route, { component: _LoginView2.default, path: "login", name: "login" })
+	  _react2.default.createElement(_reactRouter.Route, { component: _LoginView2.default, path: "login", name: "login" }),
+	  _react2.default.createElement(_reactRouter.Route, { component: _DashboardView2.default, path: "dashboard", name: "dashboard" }),
+	  _react2.default.createElement(_reactRouter.Route, { component: _RegisterView2.default, path: "register", name: "register" })
 	);
 
 /***/ },
@@ -36969,6 +36979,12 @@
 	          "span",
 	          null,
 	          "Links: ",
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: "/register" },
+	            "Register"
+	          ),
+	          " | ",
 	          _react2.default.createElement(
 	            _reactRouter.Link,
 	            { to: "/login" },
@@ -63642,6 +63658,16 @@
 
 	var _LoginForm = __webpack_require__(724);
 
+	var _materialUi = __webpack_require__(732);
+
+	var _getMuiTheme = __webpack_require__(878);
+
+	var _getMuiTheme2 = _interopRequireDefault(_getMuiTheme);
+
+	var _reactTapEventPlugin = __webpack_require__(1086);
+
+	var _reactTapEventPlugin2 = _interopRequireDefault(_reactTapEventPlugin);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
@@ -63675,10 +63701,15 @@
 	  }
 
 	  _createClass(LoginView, [{
+	    key: "getChildContext",
+	    value: function getChildContext() {
+	      return { muiTheme: (0, _getMuiTheme2.default)(_materialUi.baseTheme) };
+	    }
+	  }, {
 	    key: "login",
 	    value: function () {
 	      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(credentials) {
-	        var loginResult, tokenRes;
+	        var loginResult, tokenRes, errorRes, username, rol;
 	        return regeneratorRuntime.wrap(function _callee$(_context) {
 	          while (1) {
 	            switch (_context.prev = _context.next) {
@@ -63698,9 +63729,51 @@
 	                tokenRes = _context.sent;
 
 	                console.info("tokenRes", tokenRes);
+
+	                if (!(tokenRes === "INVALID")) {
+	                  _context.next = 14;
+	                  break;
+	                }
+
+	                _context.next = 11;
+	                return _falcorModel2.default.getValue("login.error");
+
+	              case 11:
+	                errorRes = _context.sent;
+
+	                this.setState({ error: errorRes });
 	                return _context.abrupt("return");
 
-	              case 9:
+	              case 14:
+	                if (!tokenRes) {
+	                  _context.next = 28;
+	                  break;
+	                }
+
+	                _context.next = 17;
+	                return _falcorModel2.default.getValue("login.username");
+
+	              case 17:
+	                username = _context.sent;
+	                _context.next = 20;
+	                return _falcorModel2.default.getValue("login.role");
+
+	              case 20:
+	                rol = _context.sent;
+
+	                localStorage.setItem("token", tokenRes);
+	                localStorage.setItem("username", username);
+	                localStorage.setItem("role", role);
+	                this.props.history.pushSate(null, "/dashboard");
+	                return _context.abrupt("return");
+
+	              case 28:
+	                alert("Fatal login error, please contact an admin");
+
+	              case 29:
+	                return _context.abrupt("return");
+
+	              case 30:
 	              case "end":
 	                return _context.stop();
 	            }
@@ -63729,7 +63802,14 @@
 	          "div",
 	          { style: { maxWidth: 450, margin: "0 auto" } },
 	          _react2.default.createElement(_LoginForm.LoginForm, { onSubmit: this.login })
-	        )
+	        ),
+	        _react2.default.createElement(_materialUi.Snackbar, {
+	          autoHideDuration: 4000,
+	          open: !!this.state.error,
+	          message: this.state.error || "",
+	          onRequestClose: function onRequestClose() {
+	            return console.info("you can add custom action here");
+	          } })
 	      );
 	    }
 	  }]);
@@ -63737,6 +63817,9 @@
 	  return LoginView;
 	}(_react.Component);
 
+	LoginView.childContextTypes = {
+	  muiTheme: _react2.default.PropTypes.object.isRequired
+	};
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(LoginView);
 
 /***/ },
@@ -101663,13 +101746,353 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _react = __webpack_require__(299);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _falcor = __webpack_require__(563);
+
+	var _falcor2 = _interopRequireDefault(_falcor);
+
+	var _falcorModel = __webpack_require__(562);
+
+	var _falcorModel2 = _interopRequireDefault(_falcorModel);
+
+	var _reactRedux = __webpack_require__(538);
+
+	var _redux = __webpack_require__(545);
+
+	var _LoginForm = __webpack_require__(724);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  return _extends({}, state);
+	};
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {};
+	};
+
+	var DashboardView = function (_Component) {
+	  _inherits(DashboardView, _Component);
+
+	  function DashboardView(props) {
+	    _classCallCheck(this, DashboardView);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(DashboardView).call(this, props));
+	  }
+
+	  _createClass(DashboardView, [{
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        null,
+	        _react2.default.createElement(
+	          "h1",
+	          null,
+	          "Dashboard - loggedin!"
+	        )
+	      );
+	    }
+	  }]);
+
+	  return DashboardView;
+	}(_react.Component);
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(DashboardView);
+
+/***/ },
+/* 1093 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _react = __webpack_require__(299);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _falcorModel = __webpack_require__(562);
+
+	var _falcorModel2 = _interopRequireDefault(_falcorModel);
+
+	var _reactRedux = __webpack_require__(538);
+
+	var _redux = __webpack_require__(545);
+
+	var _materialUi = __webpack_require__(732);
+
+	var _getMuiTheme = __webpack_require__(878);
+
+	var _getMuiTheme2 = _interopRequireDefault(_getMuiTheme);
+
+	var _reactTapEventPlugin = __webpack_require__(1086);
+
+	var _reactTapEventPlugin2 = _interopRequireDefault(_reactTapEventPlugin);
+
+	var _RegisterForm = __webpack_require__(1094);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  return _extends({}, state);
+	};
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {};
+	};
+
+	var RegisterView = function (_Component) {
+	  _inherits(RegisterView, _Component);
+
+	  function RegisterView(props) {
+	    _classCallCheck(this, RegisterView);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(RegisterView).call(this, props));
+
+	    _this.state = { error: null };
+	    _this.register = _this.register.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(RegisterView, [{
+	    key: "getChildContext",
+	    value: function getChildContext() {
+	      return { muiTheme: (0, _getMuiTheme2.default)(_materialUi.baseTheme) };
+	    }
+	  }, {
+	    key: "register",
+	    value: function () {
+	      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(newUserModel) {
+	        var registerResult, newUserId, errorRes;
+	        return regeneratorRuntime.wrap(function _callee$(_context) {
+	          while (1) {
+	            switch (_context.prev = _context.next) {
+	              case 0:
+	                console.info("newUserModel", newUserModel);
+	                _context.next = 3;
+	                return _falcorModel2.default.call(["register"], [newUserModel]).then(function (result) {
+	                  return result;
+	                });
+
+	              case 3:
+	                registerResult = _context.sent;
+	                _context.next = 6;
+	                return _falcorModel2.default.getValue(["register", "newUserId"]);
+
+	              case 6:
+	                newUserId = _context.sent;
+
+	                if (!(newUserId === "INVALID")) {
+	                  _context.next = 13;
+	                  break;
+	                }
+
+	                _context.next = 10;
+	                return _falcorModel2.default.getValue("register.error");
+
+	              case 10:
+	                errorRes = _context.sent;
+
+	                this.setState({ error: errorRes });
+	                return _context.abrupt("return");
+
+	              case 13:
+	                if (!newUserId) {
+	                  _context.next = 18;
+	                  break;
+	                }
+
+	                this.props.history.pushSate(null, "/login");
+	                return _context.abrupt("return");
+
+	              case 18:
+	                alert("Fatal registration error, please contact an admin");
+
+	              case 19:
+	              case "end":
+	                return _context.stop();
+	            }
+	          }
+	        }, _callee, this);
+	      }));
+
+	      function register(_x) {
+	        return _ref.apply(this, arguments);
+	      }
+
+	      return register;
+	    }()
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        null,
+	        _react2.default.createElement(
+	          "h1",
+	          null,
+	          "Register"
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { style: { maxWidth: 450, margin: "0 auto" } },
+	          _react2.default.createElement(_RegisterForm.RegisterForm, { onSubmit: this.register })
+	        ),
+	        _react2.default.createElement(_materialUi.Snackbar, {
+	          autoHideDuration: 4000,
+	          open: !!this.state.error,
+	          message: this.state.error || "",
+	          onRequestClose: function onRequestClose() {
+	            return console.info("you can add custom action here");
+	          } })
+	      );
+	    }
+	  }]);
+
+	  return RegisterView;
+	}(_react.Component);
+
+	RegisterView.childContextTypes = {
+	  muiTheme: _react2.default.PropTypes.object.isRequired
+	};
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(RegisterView);
+
+/***/ },
+/* 1094 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.RegisterForm = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(299);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _formsyReact = __webpack_require__(725);
+
+	var _formsyReact2 = _interopRequireDefault(_formsyReact);
+
+	var _materialUi = __webpack_require__(732);
+
+	var _getMuiTheme = __webpack_require__(878);
+
+	var _getMuiTheme2 = _interopRequireDefault(_getMuiTheme);
+
+	var _DefaultInput = __webpack_require__(1085);
+
+	var _DefaultInput2 = _interopRequireDefault(_DefaultInput);
+
+	var _reactTapEventPlugin = __webpack_require__(1086);
+
+	var _reactTapEventPlugin2 = _interopRequireDefault(_reactTapEventPlugin);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var RegisterForm = exports.RegisterForm = function (_Component) {
+	  _inherits(RegisterForm, _Component);
+
+	  function RegisterForm(props) {
+	    _classCallCheck(this, RegisterForm);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(RegisterForm).call(this, props));
+	  }
+
+	  _createClass(RegisterForm, [{
+	    key: "getChildContext",
+	    value: function getChildContext() {
+	      return { muiTheme: (0, _getMuiTheme2.default)(_materialUi.baseTheme) };
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        _formsyReact2.default.Form,
+	        { onSubmit: this.props.onSubmit },
+	        _react2.default.createElement(
+	          _materialUi.Paper,
+	          { zDepth: 1, style: { padding: 32 } },
+	          _react2.default.createElement(
+	            "h3",
+	            null,
+	            "Registration form"
+	          ),
+	          _react2.default.createElement(_DefaultInput2.default, { onChange: function onChange(event) {}, name: "username", title: "Username", required: true }),
+	          _react2.default.createElement(_DefaultInput2.default, { onChange: function onChange(event) {}, name: "firstName", title: "Firstname", required: true }),
+	          _react2.default.createElement(_DefaultInput2.default, { onChange: function onChange(event) {}, name: "lastName", title: "Lastname", required: true }),
+	          _react2.default.createElement(_DefaultInput2.default, { onChange: function onChange(event) {}, name: "email", title: "Email", required: true }),
+	          _react2.default.createElement(_DefaultInput2.default, { onChange: function onChange(event) {}, type: "password", name: "password", title: "Password", required: true }),
+	          _react2.default.createElement(
+	            "div",
+	            { style: { marginTop: 24 } },
+	            _react2.default.createElement(_materialUi.RaisedButton, { secondary: true, type: "submit", style: { margin: "0 auto", display: "block", width: 150 }, label: "Register" })
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return RegisterForm;
+	}(_react.Component);
+
+	RegisterForm.childContextTypes = {
+	  muiTheme: _react2.default.PropTypes.object.isRequired
+	};
+
+/***/ },
+/* 1095 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	exports.default = configureStore;
 
-	var _reducers = __webpack_require__(1093);
+	var _reducers = __webpack_require__(1096);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
-	var _reduxThunk = __webpack_require__(1095);
+	var _reduxThunk = __webpack_require__(1098);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
@@ -101688,7 +102111,7 @@
 	}
 
 /***/ },
-/* 1093 */
+/* 1096 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -101701,7 +102124,7 @@
 
 	var _reactRouterRedux = __webpack_require__(532);
 
-	var _article = __webpack_require__(1094);
+	var _article = __webpack_require__(1097);
 
 	var _article2 = _interopRequireDefault(_article);
 
@@ -101713,7 +102136,7 @@
 	});
 
 /***/ },
-/* 1094 */
+/* 1097 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -101738,7 +102161,7 @@
 	exports.default = article;
 
 /***/ },
-/* 1095 */
+/* 1098 */
 /***/ function(module, exports) {
 
 	'use strict';

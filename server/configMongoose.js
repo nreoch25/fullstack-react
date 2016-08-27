@@ -12,14 +12,14 @@ var articleSchema = {
   articleContent:String
 };
 var userSchema = {
-  "username": String,
-  "password": String,
-  "firstName": String,
-  "lastName": String,
-  "email": String,
-  "role": String,
-  "verified": Boolean,
-  "imageUrl": String
+  username: { type: String, index: { unique: true, dropDups: true}},
+  password: String,
+  firstName: String,
+  lastName: String,
+  email: { type: String, index: { unique: true, dropDups: true }},
+  role: { type: String, default: "editor" },
+  verified: Boolean,
+  imageUrl: String
 }
 var Article = mongoose.model("Article", articleSchema, "articles");
 var User = mongoose.model("User", userSchema, "pubUsers");
