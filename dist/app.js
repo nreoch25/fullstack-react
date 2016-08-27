@@ -37174,18 +37174,9 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var cache = {
-	  articles: [{
-	    id: 987654,
-	    articleTitle: "Lorem ipsum - article one",
-	    articleContent: "Here goes the content of the article"
-	  }, {
-	    id: 123456,
-	    articleTitle: "Lorem ipsum - article two from backend",
-	    articleContent: "Sky is the limit, the content goes here. Romo gets hurt"
-	  }]
-	};
-	var model = new _falcor2.default.Model({ "cache": cache });
+	var model = new _falcor2.default.Model({
+	  source: new _falcorHttpDatasource2.default("/model.json")
+	});
 	exports.default = model;
 
 /***/ },
