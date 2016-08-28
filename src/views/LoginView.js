@@ -18,6 +18,9 @@ class LoginView extends Component {
     }
     this.login = this.login.bind(this);
   }
+  static contextTypes = {
+    router: React.PropTypes.object
+  }
   getChildContext() {
     return { muiTheme: getMuiTheme(baseTheme) };
   }
@@ -36,11 +39,11 @@ class LoginView extends Component {
     }
     if(tokenRes) {
       let username = await falcorModel.getValue("login.username");
-      let rol = await falcorModel.getValue("login.role");
+      let role = await falcorModel.getValue("login.role");
       localStorage.setItem("token", tokenRes);
       localStorage.setItem("username", username);
       localStorage.setItem("role", role);
-      this.props.history.pushSate(null, "/dashboard");
+      this.context.router.push("/dashboard");
       return;
     } else {
       alert("Fatal login error, please contact an admin");

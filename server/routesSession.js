@@ -9,7 +9,7 @@ export default [
     route: ["login"],
     call: (callPath, args) => {
       let { username, password } = args[0];
-      let saltedPassword = password + "2016";
+      let saltedPassword = password + "TonyRomo";
       let saltedPassHash = crypto.createHash("sha256").update(saltedPassword).digest("hex");
       let userStatementQuery = {
         $and: [

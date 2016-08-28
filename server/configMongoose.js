@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+mongoose.Promise = global.Promise;
 const conf = {
   hostname: process.env.MONGO_HOSTNAME || "localhost",
   port: process.env.MONGO_PORT || 27017,

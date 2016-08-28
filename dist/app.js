@@ -63700,7 +63700,7 @@
 	    key: "login",
 	    value: function () {
 	      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(credentials) {
-	        var loginResult, tokenRes, errorRes, username, rol;
+	        var loginResult, tokenRes, errorRes, username, role;
 	        return regeneratorRuntime.wrap(function _callee$(_context) {
 	          while (1) {
 	            switch (_context.prev = _context.next) {
@@ -63750,12 +63750,12 @@
 	                return _falcorModel2.default.getValue("login.role");
 
 	              case 20:
-	                rol = _context.sent;
+	                role = _context.sent;
 
 	                localStorage.setItem("token", tokenRes);
 	                localStorage.setItem("username", username);
 	                localStorage.setItem("role", role);
-	                this.props.history.pushSate(null, "/dashboard");
+	                this.context.router.push("/dashboard");
 	                return _context.abrupt("return");
 
 	              case 28:
@@ -63807,6 +63807,10 @@
 
 	  return LoginView;
 	}(_react.Component);
+
+	LoginView.contextTypes = {
+	  router: _react2.default.PropTypes.object
+	};
 
 	LoginView.childContextTypes = {
 	  muiTheme: _react2.default.PropTypes.object.isRequired
