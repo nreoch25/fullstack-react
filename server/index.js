@@ -7,6 +7,17 @@ import falcorExpress from "falcor-express";
 import Router from "falcor-router";
 import routes from "./routes";
 
+import React from "react";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import { renderToStaticMarkup } from "react-dom/server";
+import ReactRouter from "react-router";
+import { RouterContext, match } from "react-router";
+import * as hist from "history";
+import rootReducer from "../src/reducers";
+import reactRoutes from "../src/routes";
+import fetchServerSide from "./fetchServerSide";
+
 var app = express();
 app.server = http.createServer(app);
 // CORS - 3rd party middleware
