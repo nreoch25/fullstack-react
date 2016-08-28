@@ -18,6 +18,9 @@ class RegisterView extends Component {
   getChildContext() {
     return { muiTheme: getMuiTheme(baseTheme) };
   }
+  static contextTypes = {
+    router: React.PropTypes.object
+  }
   async register(newUserModel) {
     console.info("newUserModel", newUserModel);
     let registerResult = await falcorModel.call(["register"], [newUserModel]).then((result) => {
@@ -30,10 +33,10 @@ class RegisterView extends Component {
       return;
     }
     if(newUserId) {
-      this.props.history.pushSate(null, "/login");
+      this.context.router.push("/login");
       return;
     } else {
-      alert("Fatal registration error, please contact an admin");
+      this.setState({ error: "Fatal registration error, please contact an admin" });
     }
   }
   render() {

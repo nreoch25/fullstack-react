@@ -63,12 +63,10 @@ export default [
     route: ["register"],
     call: ( callPath, args ) => {
       let newUserObj = args[0];
-      newUserObj.password = newUserObj.password + "2016";
+      newUserObj.password = newUserObj.password + "TonyRomo";
       newUserObj.password = crypto.createHash("sha256").update(newUserObj.password).digest("hex");
       let newUser = new User(newUserObj);
-      return newUser.save((err, data) => {
-        if(err) { return err; }
-      }).then((newRes) => {
+      return newUser.save().then((newRes) => {
         //got new obj data
         let newUserDetail = newRes.toObject();
         if(newUserDetail._id) {

@@ -101924,11 +101924,11 @@
 	                  break;
 	                }
 
-	                this.props.history.pushSate(null, "/login");
+	                this.context.router.push("/login");
 	                return _context.abrupt("return");
 
 	              case 18:
-	                alert("Fatal registration error, please contact an admin");
+	                this.setState({ error: "Fatal registration error, please contact an admin" });
 
 	              case 19:
 	              case "end":
@@ -101973,6 +101973,10 @@
 
 	  return RegisterView;
 	}(_react.Component);
+
+	RegisterView.contextTypes = {
+	  router: _react2.default.PropTypes.object
+	};
 
 	RegisterView.childContextTypes = {
 	  muiTheme: _react2.default.PropTypes.object.isRequired
