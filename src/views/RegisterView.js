@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import falcorModel from "../falcorModel";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Snackbar, baseTheme } from "material-ui";
-import getMuiTheme from "material-ui/styles/getMuiTheme";
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import { Snackbar } from "material-ui";
 import { RegisterForm } from "../components/RegisterForm";
 const mapStateToProps = ( state ) => ({ ...state });
 const mapDispatchToProps = ( dispatch ) => ({ });
@@ -14,9 +12,6 @@ class RegisterView extends Component {
     super(props);
     this.state = { error: null };
     this.register = this.register.bind(this);
-  }
-  getChildContext() {
-    return { muiTheme: getMuiTheme(baseTheme) };
   }
   static contextTypes = {
     router: React.PropTypes.object
@@ -55,7 +50,4 @@ class RegisterView extends Component {
     );
   }
 }
-RegisterView.childContextTypes = {
-  muiTheme: React.PropTypes.object.isRequired,
-};
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterView);

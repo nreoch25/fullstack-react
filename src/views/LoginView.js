@@ -4,9 +4,7 @@ import falcorModel from "../falcorModel";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { LoginForm } from "../components/LoginForm";
-import { Snackbar, baseTheme } from "material-ui";
-import getMuiTheme from "material-ui/styles/getMuiTheme";
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import { Snackbar } from "material-ui";
 const mapStateToProps = (state) => ({ ...state });
 const mapDispatchToProps = (dispatch) => ({ });
 
@@ -20,9 +18,6 @@ class LoginView extends Component {
   }
   static contextTypes = {
     router: React.PropTypes.object
-  }
-  getChildContext() {
-    return { muiTheme: getMuiTheme(baseTheme) };
   }
   async login(credentials) {
     console.info("credentials", credentials);
@@ -66,7 +61,4 @@ class LoginView extends Component {
     );
   }
 }
-LoginView.childContextTypes = {
-  muiTheme: React.PropTypes.object.isRequired,
-};
 export default connect(mapStateToProps, mapDispatchToProps)(LoginView);

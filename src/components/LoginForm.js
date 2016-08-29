@@ -1,17 +1,11 @@
 import React, { Component } from "react";
 import Formsy from "formsy-react";
-import { RaisedButton, Paper, baseTheme } from "material-ui";
-import getMuiTheme from "material-ui/styles/getMuiTheme";
+import { RaisedButton, Paper } from "material-ui";
 import DefaultInput from "./DefaultInput";
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
 
 export class LoginForm extends Component {
   constructor(props) {
     super(props);
-  }
-  getChildContext() {
-    return { muiTheme: getMuiTheme(baseTheme) };
   }
   render() {
     return (
@@ -27,6 +21,3 @@ export class LoginForm extends Component {
     );
   }
 }
-LoginForm.childContextTypes = {
-  muiTheme: React.PropTypes.object.isRequired,
-};
