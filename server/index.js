@@ -28,13 +28,13 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use("/model.json", falcorExpress.dataSourceRoute(function(req, res) {
   return new Router(routes);
 }));
+app.use("/static", express.static("dist"));
 let handleServerSideRender = (req, res) => {
   let initMOCKstore = fetchServerSide();
   // mocked for now // Create a Redux store instance
   const store = createStore(rootReducer, initMOCKstore);
   const location = createLocation(req.url);
   match({ routes: reactRoutes, location }, (err, redirectLocation, renderProps) => {
-    console.log(renderProps);
     if(redirectLocation) {
       res.redirect(301, redirectLocation.pathname = redirectLocation.search);
     } else if(err) {
@@ -70,7 +70,6 @@ let renderFullPage = (html, initialState) => {
     </html> `
 };
 app.use(handleServerSideRender);
-app.use("/static", express.static("dist"));
 app.server.listen(process.env.PORT || 3000);
 console.log(`Started on port ${app.server.address().port}`);
 export default app;
