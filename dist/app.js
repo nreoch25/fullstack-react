@@ -44340,7 +44340,9 @@
 	  _createClass(PublishingApp, [{
 	    key: "componentWillMount",
 	    value: function componentWillMount() {
-	      this._fetch();
+	      if (typeof window !== "undefined") {
+	        this._fetch();
+	      }
 	    }
 	  }, {
 	    key: "_fetch",

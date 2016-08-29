@@ -13,7 +13,7 @@ class PublishingApp extends Component {
     super(props);
   }
   componentWillMount() {
-    this._fetch();
+    if(typeof window !== "undefined") { this._fetch(); }
   }
   async _fetch() {
     let articlesLength = await falcorModel.getValue("articles.length").then(function(length) {
