@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import falcorModel from "../falcorModel";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Snackbar } from "material-ui";
 import { RegisterForm } from "../components/RegisterForm";
 const mapStateToProps = ( state ) => ({ ...state });
 const mapDispatchToProps = ( dispatch ) => ({ });
@@ -41,11 +40,7 @@ class RegisterView extends Component {
         <div style={{maxWidth: 450, margin: "0 auto"}}>
           <RegisterForm onSubmit={this.register} />
         </div>
-        <Snackbar
-          autoHideDuration={4000}
-          open={!!this.state.error}
-          message={this.state.error || ""}
-          onRequestClose={() => console.info("you can add custom action here")} />
+        <div>{this.state.error}</div>
       </div>
     );
   }

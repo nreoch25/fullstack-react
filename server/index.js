@@ -59,6 +59,7 @@ let renderFullPage = (html, initialState) => {
     <!doctype html>
     <html>
       <head>
+        <link rel="shortcut icon" href="#" />
         <title>Publishing App Server Side Rendering</title>
       </head>
       <body>

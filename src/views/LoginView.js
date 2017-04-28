@@ -4,7 +4,6 @@ import falcorModel from "../falcorModel";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { LoginForm } from "../components/LoginForm";
-import { Snackbar } from "material-ui";
 const mapStateToProps = (state) => ({ ...state });
 const mapDispatchToProps = (dispatch) => ({ });
 
@@ -19,8 +18,10 @@ class LoginView extends Component {
   static contextTypes = {
     router: React.PropTypes.object
   }
-  async login(credentials) {
-    console.info("credentials", credentials);
+  async login(evt) {
+    evt.preventDefault()
+    let credentials = { username: this.refs.username.value, password: this.refs.password.value };
+    console.log(credentials);
     let loginResult = await falcorModel.call(["login"], [credentials]).then((result) => {
       return result;
     });
@@ -50,13 +51,15 @@ class LoginView extends Component {
       <div>
         <h1>Login View</h1>
         <div style={{maxWidth: 450, margin: "0 auto"}}>
-          <LoginForm onSubmit={this.login} />
+          <form onSubmit={this.login}>
+            <input ref="username" name="username" title="Username" required />
+            <input ref="password" type="password" name="password" title="Password" required />
+            <div style={{marginTop: 24}}>
+              <button type="submit" style={{margin: "0 auto", display: "block", width: 150}} value="login" />
+            </div>
+          </form>
         </div>
-        <Snackbar
-          autoHideDuration={4000}
-          open={!!this.state.error}
-          message={this.state.error || ""}
-          onRequestClose={() => console.info("you can add custom action here")} />
+        <div>{this.state.error}</div>
       </div>
     );
   }
