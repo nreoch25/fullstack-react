@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import falcorModel from "../falcorModel";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { RegisterForm } from "../components/RegisterForm";
 const mapStateToProps = ( state ) => ({ ...state });
 const mapDispatchToProps = ( dispatch ) => ({ });
 
@@ -15,7 +14,15 @@ class RegisterView extends Component {
   static contextTypes = {
     router: React.PropTypes.object
   }
-  async register(newUserModel) {
+  async register(evt) {
+    evt.preventDefault()
+    let newUserModel = {
+      username: this.refs.username.value,
+      firstName: this.refs.firstname.value,
+      lastName: this.refs.lastname.value,
+      email: this.refs.email.value,
+      password: this.refs.password.value
+    };
     console.info("newUserModel", newUserModel);
     let registerResult = await falcorModel.call(["register"], [newUserModel]).then((result) => {
       return result;
@@ -38,7 +45,16 @@ class RegisterView extends Component {
       <div>
         <h1>Register</h1>
         <div style={{maxWidth: 450, margin: "0 auto"}}>
-          <RegisterForm onSubmit={this.register} />
+          <form onSubmit={this.register}>
+            <input ref="username" name="username" title="Username" required />
+            <input ref="firstname" name="firstName" title="Firstname" required />
+            <input ref="lastname" name="lastName" title="Lastname" required />
+            <input ref="email" name="email" title="Email" required />
+            <input ref="password" type="password" name="password" title="Password" required />
+            <div style={{marginTop: 24}}>
+              <button type="submit" style={{margin: "0 auto", display: "block", width: 150}} />
+            </div>
+          </form>
         </div>
         <div>{this.state.error}</div>
       </div>
