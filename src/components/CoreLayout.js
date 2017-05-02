@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router";
+import Header from "./Header";
 class CoreLayout extends Component {
   static propTypes = {
     children: React.PropTypes.element
@@ -9,9 +9,8 @@ class CoreLayout extends Component {
   }
   render() {
     return (
-      <div>
-        <span>Links: <Link to="/register">Register</Link> | <Link to="/login">Login</Link> | <Link to="/">Home Page</Link></span>
-        <br />
+      <div style={{"marginTop": "60px"}}>
+        <Header />
         {this.props.children}
       </div>
     );

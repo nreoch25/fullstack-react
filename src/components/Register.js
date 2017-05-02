@@ -42,22 +42,32 @@ class RegisterView extends Component {
   }
   render() {
     return(
-      <div>
-        <h1>Register</h1>
-        <div style={{maxWidth: 450, margin: "0 auto"}}>
-          <form onSubmit={this.register}>
-            <input ref="username" name="username" title="Username" required />
-            <input ref="firstname" name="firstName" title="Firstname" required />
-            <input ref="lastname" name="lastName" title="Lastname" required />
-            <input ref="email" name="email" title="Email" required />
-            <input ref="password" type="password" name="password" title="Password" required />
-            <div style={{marginTop: 24}}>
-              <button type="submit" style={{margin: "0 auto", display: "block", width: 150}} />
-            </div>
-          </form>
+      <form className="form-horizontal" onSubmit={this.register}>
+        <div className="form-group" style={{"padding": "0 15px"}}>
+          <label className="control-label" for="username">Username:</label>
+          <input className="form-control" ref="username" name="username" title="Username" required />
+        </div>
+        <div className="form-group" style={{"padding": "0 15px"}}>
+          <label className="control-label" for="firstname">FirstName:</label>
+          <input className="form-control" ref="firstname" name="firstName" title="Firstname" required />
+        </div>
+        <div className="form-group" style={{"padding": "0 15px"}}>
+          <label className="control-label" for="lastname">LastName:</label>
+          <input className="form-control" ref="lastname" name="lastName" title="Lastname" required />
+        </div>
+        <div className="form-group" style={{"padding": "0 15px"}}>
+          <label className="control-label" for="email">Email:</label>
+          <input className="form-control" ref="email" name="email" title="Email" required />
+        </div>
+        <div className="form-group" style={{"padding": "0 15px"}}>
+          <label className="control-label" for="password">Password:</label>
+          <input className="form-control" ref="password" type="password" name="password" title="Password" required />
+        </div>
+        <div className="form-group" style={{"padding": "0 15px"}}>
+          <button type="submit" className="btn btn-default">Submit</button>
         </div>
         <div>{this.state.error}</div>
-      </div>
+      </form>
     );
   }
 }

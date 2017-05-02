@@ -47,19 +47,20 @@ class LoginView extends Component {
   }
   render() {
     return (
-      <div>
-        <h1>Login View</h1>
-        <div style={{maxWidth: 450, margin: "0 auto"}}>
-          <form onSubmit={this.login}>
-            <input ref="username" name="username" title="Username" required />
-            <input ref="password" type="password" name="password" title="Password" required />
-            <div style={{marginTop: 24}}>
-              <button type="submit" style={{margin: "0 auto", display: "block", width: 150}} value="login" />
-            </div>
-          </form>
+      <form className="form-horizontal" onSubmit={this.login}>
+        <div className="form-group" style={{"padding": "0 15px"}}>
+          <label className="control-label" for="username">Username:</label>
+          <input className="form-control" ref="username" name="username" title="Username" required />
+        </div>
+        <div className="form-group" style={{"padding": "0 15px"}}>
+          <label className="control-label" for="password">Password:</label>
+          <input className="form-control" ref="password" type="password" name="password" title="Password" required />
+        </div>
+        <div className="form-group" style={{"padding": "0 15px"}}>
+          <button type="submit" className="btn btn-default">Submit</button>
         </div>
         <div>{this.state.error}</div>
-      </div>
+      </form>
     );
   }
 }

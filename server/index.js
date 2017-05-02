@@ -29,11 +29,14 @@ app.use("/model.json", falcorExpress.dataSourceRoute(function(req, res) {
   return new Router(routes);
 }));
 app.use("/static", express.static("dist"));
-let handleServerSideRender = (req, res) => {
-  let initMOCKstore = fetchServerSide();
-  // mocked for now // Create a Redux store instance
-  const store = createStore(rootReducer, initMOCKstore);
-  const location = createLocation(req.url);
+let handleServerSideRender = async (req, res, next) => {
+  let articlesArray = await fetchServerSide();
+  let initMOCKstore = {
+    article: articlesArray
+  }
+  // Create a new Redux store instance
+  const store = createStore(rootReducer, initMOCKstore)
+  const location = createLocation(req.path);
   match({ routes: reactRoutes, location }, (err, redirectLocation, renderProps) => {
     if(redirectLocation) {
       res.redirect(301, redirectLocation.pathname = redirectLocation.search);
@@ -61,10 +64,13 @@ let renderFullPage = (html, initialState) => {
       <head>
         <link rel="shortcut icon" href="#" />
         <title>Publishing App Server Side Rendering</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Lato:400,300,700" rel="stylesheet" type="text/css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
       </head>
       <body>
-        <h1>Server side publishing app</h1>
-        <div id="publishingAppRoot">${html}</div>
+        <div class="container" id="publishingAppRoot">${html}</div>
         <script>window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}</script>
         <script src="/static/app.js"></script>
       </body>

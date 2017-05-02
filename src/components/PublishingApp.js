@@ -20,7 +20,7 @@ class PublishingApp extends Component {
       return length;
     });
     let articles = await falcorModel.get(["articles", {from: 0, to: articlesLength -1},
-    ["id", "articleTitle", "articleContent"]]).then(function(articlesResponse) {
+    ["_id", "articleTitle", "articleContent"]]).then(function(articlesResponse) {
       return articlesResponse.json.articles;
     });
     this.props.articleActions.articlesList(articles);
@@ -39,7 +39,6 @@ class PublishingApp extends Component {
     }
     return (
       <div>
-        <h1>Our publishing app</h1>
         {articlesJSX}
       </div>
     );
