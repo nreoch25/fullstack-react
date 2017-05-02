@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import falcorModel from "../falcorModel";
 import { bindActionCreators } from "redux";
 import articleActions from "../actions/article.js";
+import ArticleCard from "./ArticleCard";
 const mapStateToProps = (state) => ({ ...state });
 const mapDispatchToProps = (dispatch) => ({
   articleActions: bindActionCreators(articleActions, dispatch)
@@ -31,8 +32,7 @@ class PublishingApp extends Component {
       let articleDetails = this.props.article[articleKey];
       let currentArticleJSX = (
         <div key={articleKey}>
-        <h2>{articleDetails.articleTitle}</h2>
-        <h3>{articleDetails.articleContent}</h3>
+          <ArticleCard title={articleDetails.articleTitle} content={articleDetails.articleContent} />
         </div>
       );
       articlesJSX.push(currentArticleJSX);
