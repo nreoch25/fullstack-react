@@ -1,7 +1,15 @@
 import React, { Component } from "react";
 import { Link } from "react-router";
 
-export default class Header extends Component {
+class Header extends Component {
+  constructor(props) {
+    super(props);
+  }
+  getNavigationLinks() {
+    let userIsLoggedIn = (typeof localStorage !== "undefined" && localStorage.token && this.props.route !== "logout") ? true : false;
+    console.log("USER LOGGED IN", userIsLoggedIn);
+    // TODO display dashboard / logout if logged in
+  }
   render() {
     return(
       <nav className="navbar navbar-inverse navbar-fixed-top">
@@ -16,6 +24,7 @@ export default class Header extends Component {
           </div>
           <div className="collapse navbar-collapse" id="myNavbar">
             <ul className="nav navbar-nav navbar-right">
+              {this.getNavigationLinks()}
               <li id="nav-saved"><Link to="/register"><span className="glyphicon glyphicon-saved right-margin"></span> Register</Link></li>
               <li id="nav-request"><Link to="/login"><span className="glyphicon glyphicon-log-in right-margin"></span> Login</Link></li>
             </ul>
@@ -25,3 +34,5 @@ export default class Header extends Component {
     );
   }
 }
+
+export default Header;

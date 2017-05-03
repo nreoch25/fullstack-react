@@ -10,7 +10,7 @@ class CoreLayout extends Component {
   render() {
     return (
       <div style={{"marginTop": "60px"}}>
-        <Header />
+        <Header route={this.props.routes[1].name}/>
         {this.props.children}
       </div>
     );

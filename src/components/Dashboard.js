@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 const mapStateToProps = (state) => ({ ...state });
 const mapDispatchToProps = (dispatch) => ({ });
 
-class DashboardView extends Component {
+class Dashboard extends Component {
   constructor(props) {
     super(props);
   }
@@ -19,4 +19,4 @@ class DashboardView extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardView);
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

@@ -8075,7 +8075,7 @@
 
 	var _Root2 = _interopRequireDefault(_Root);
 
-	var _configureStore = __webpack_require__(739);
+	var _configureStore = __webpack_require__(742);
 
 	var _configureStore2 = _interopRequireDefault(_configureStore);
 
@@ -37909,13 +37909,21 @@
 
 	var _Login2 = _interopRequireDefault(_Login);
 
-	var _Dashboard = __webpack_require__(737);
+	var _Logout = __webpack_require__(737);
+
+	var _Logout2 = _interopRequireDefault(_Logout);
+
+	var _Dashboard = __webpack_require__(738);
 
 	var _Dashboard2 = _interopRequireDefault(_Dashboard);
 
-	var _Register = __webpack_require__(738);
+	var _Register = __webpack_require__(739);
 
 	var _Register2 = _interopRequireDefault(_Register);
+
+	var _AddArticle = __webpack_require__(740);
+
+	var _AddArticle2 = _interopRequireDefault(_AddArticle);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37924,8 +37932,10 @@
 	  { component: _Corelayout2.default, path: "/" },
 	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _PublishingApp2.default, name: "home" }),
 	  _react2.default.createElement(_reactRouter.Route, { component: _Login2.default, path: "login", name: "login" }),
+	  _react2.default.createElement(_reactRouter.Route, { component: _Logout2.default, path: "logout", name: "logout" }),
 	  _react2.default.createElement(_reactRouter.Route, { component: _Dashboard2.default, path: "dashboard", name: "dashboard" }),
-	  _react2.default.createElement(_reactRouter.Route, { component: _Register2.default, path: "register", name: "register" })
+	  _react2.default.createElement(_reactRouter.Route, { component: _Register2.default, path: "register", name: "register" }),
+	  _react2.default.createElement(_reactRouter.Route, { component: _AddArticle2.default, path: "add-article", name: "add-article" })
 	);
 
 /***/ }),
@@ -37971,7 +37981,7 @@
 	      return _react2.default.createElement(
 	        "div",
 	        { style: { "marginTop": "60px" } },
-	        _react2.default.createElement(_Header2.default, null),
+	        _react2.default.createElement(_Header2.default, { route: this.props.routes[1].name }),
 	        this.props.children
 	      );
 	    }
@@ -38014,13 +38024,20 @@
 	var Header = function (_Component) {
 	  _inherits(Header, _Component);
 
-	  function Header() {
+	  function Header(props) {
 	    _classCallCheck(this, Header);
 
-	    return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, props));
 	  }
 
 	  _createClass(Header, [{
+	    key: "getNavigationLinks",
+	    value: function getNavigationLinks() {
+	      var userIsLoggedIn = typeof localStorage !== "undefined" && localStorage.token && this.props.route !== "logout" ? true : false;
+	      console.log("USER LOGGED IN", userIsLoggedIn);
+	      //if(  )
+	    }
+	  }, {
 	    key: "render",
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -38051,6 +38068,7 @@
 	            _react2.default.createElement(
 	              "ul",
 	              { className: "nav navbar-nav navbar-right" },
+	              this.getNavigationLinks(),
 	              _react2.default.createElement(
 	                "li",
 	                { id: "nav-saved" },
@@ -64783,13 +64801,13 @@
 	  return {};
 	};
 
-	var LoginView = function (_Component) {
-	  _inherits(LoginView, _Component);
+	var Login = function (_Component) {
+	  _inherits(Login, _Component);
 
-	  function LoginView(props) {
-	    _classCallCheck(this, LoginView);
+	  function Login(props) {
+	    _classCallCheck(this, Login);
 
-	    var _this = _possibleConstructorReturn(this, (LoginView.__proto__ || Object.getPrototypeOf(LoginView)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
 
 	    _this.state = {
 	      error: null
@@ -64798,7 +64816,7 @@
 	    return _this;
 	  }
 
-	  _createClass(LoginView, [{
+	  _createClass(Login, [{
 	    key: "login",
 	    value: function () {
 	      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(evt) {
@@ -64894,7 +64912,7 @@
 	          { className: "form-group", style: { "padding": "0 15px" } },
 	          _react2.default.createElement(
 	            "label",
-	            { className: "control-label", "for": "username" },
+	            { className: "control-label", htmlFor: "username" },
 	            "Username:"
 	          ),
 	          _react2.default.createElement("input", { className: "form-control", ref: "username", name: "username", title: "Username", required: true })
@@ -64904,7 +64922,7 @@
 	          { className: "form-group", style: { "padding": "0 15px" } },
 	          _react2.default.createElement(
 	            "label",
-	            { className: "control-label", "for": "password" },
+	            { className: "control-label", htmlFor: "password" },
 	            "Password:"
 	          ),
 	          _react2.default.createElement("input", { className: "form-control", ref: "password", type: "password", name: "password", title: "Password", required: true })
@@ -64927,16 +64945,78 @@
 	    }
 	  }]);
 
-	  return LoginView;
+	  return Login;
 	}(_react.Component);
 
-	LoginView.contextTypes = {
+	Login.contextTypes = {
 	  router: _react2.default.PropTypes.object
 	};
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(LoginView);
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Login);
 
 /***/ }),
 /* 737 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Logout = function (_Component) {
+	  _inherits(Logout, _Component);
+
+	  function Logout(props) {
+	    _classCallCheck(this, Logout);
+
+	    return _possibleConstructorReturn(this, (Logout.__proto__ || Object.getPrototypeOf(Logout)).call(this, props));
+	  }
+
+	  _createClass(Logout, [{
+	    key: "componentWillMount",
+	    value: function componentWillMount() {
+	      if (typeof localStorage !== "undefined" && localStorage.token) {
+	        delete localStorage.token;
+	        delete localStorage.username;
+	        delete localStorage.role;
+	      }
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "well well-lg" },
+	        _react2.default.createElement(
+	          "h2",
+	          null,
+	          "Logout Successful"
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Logout;
+	}(_react.Component);
+
+	exports.default = Logout;
+
+/***/ }),
+/* 738 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -64980,16 +65060,16 @@
 	  return {};
 	};
 
-	var DashboardView = function (_Component) {
-	  _inherits(DashboardView, _Component);
+	var Dashboard = function (_Component) {
+	  _inherits(Dashboard, _Component);
 
-	  function DashboardView(props) {
-	    _classCallCheck(this, DashboardView);
+	  function Dashboard(props) {
+	    _classCallCheck(this, Dashboard);
 
-	    return _possibleConstructorReturn(this, (DashboardView.__proto__ || Object.getPrototypeOf(DashboardView)).call(this, props));
+	    return _possibleConstructorReturn(this, (Dashboard.__proto__ || Object.getPrototypeOf(Dashboard)).call(this, props));
 	  }
 
-	  _createClass(DashboardView, [{
+	  _createClass(Dashboard, [{
 	    key: "render",
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -65004,13 +65084,13 @@
 	    }
 	  }]);
 
-	  return DashboardView;
+	  return Dashboard;
 	}(_react.Component);
 
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(DashboardView);
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Dashboard);
 
 /***/ }),
-/* 738 */
+/* 739 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -65148,7 +65228,7 @@
 	          { className: "form-group", style: { "padding": "0 15px" } },
 	          _react2.default.createElement(
 	            "label",
-	            { className: "control-label", "for": "username" },
+	            { className: "control-label", htmlFor: "username" },
 	            "Username:"
 	          ),
 	          _react2.default.createElement("input", { className: "form-control", ref: "username", name: "username", title: "Username", required: true })
@@ -65158,7 +65238,7 @@
 	          { className: "form-group", style: { "padding": "0 15px" } },
 	          _react2.default.createElement(
 	            "label",
-	            { className: "control-label", "for": "firstname" },
+	            { className: "control-label", htmlFor: "firstname" },
 	            "FirstName:"
 	          ),
 	          _react2.default.createElement("input", { className: "form-control", ref: "firstname", name: "firstName", title: "Firstname", required: true })
@@ -65168,7 +65248,7 @@
 	          { className: "form-group", style: { "padding": "0 15px" } },
 	          _react2.default.createElement(
 	            "label",
-	            { className: "control-label", "for": "lastname" },
+	            { className: "control-label", htmlFor: "lastname" },
 	            "LastName:"
 	          ),
 	          _react2.default.createElement("input", { className: "form-control", ref: "lastname", name: "lastName", title: "Lastname", required: true })
@@ -65178,7 +65258,7 @@
 	          { className: "form-group", style: { "padding": "0 15px" } },
 	          _react2.default.createElement(
 	            "label",
-	            { className: "control-label", "for": "email" },
+	            { className: "control-label", htmlFor: "email" },
 	            "Email:"
 	          ),
 	          _react2.default.createElement("input", { className: "form-control", ref: "email", name: "email", title: "Email", required: true })
@@ -65188,7 +65268,7 @@
 	          { className: "form-group", style: { "padding": "0 15px" } },
 	          _react2.default.createElement(
 	            "label",
-	            { className: "control-label", "for": "password" },
+	            { className: "control-label", htmlFor: "password" },
 	            "Password:"
 	          ),
 	          _react2.default.createElement("input", { className: "form-control", ref: "password", type: "password", name: "password", title: "Password", required: true })
@@ -65220,7 +65300,125 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(RegisterView);
 
 /***/ }),
-/* 739 */
+/* 740 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(538);
+
+	var _WYSIWYGeditor = __webpack_require__(741);
+
+	var _WYSIWYGeditor2 = _interopRequireDefault(_WYSIWYGeditor);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  return _extends({}, state);
+	};
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {};
+	};
+
+	var AddArticle = function (_Component) {
+	  _inherits(AddArticle, _Component);
+
+	  function AddArticle(props) {
+	    _classCallCheck(this, AddArticle);
+
+	    return _possibleConstructorReturn(this, (AddArticle.__proto__ || Object.getPrototypeOf(AddArticle)).call(this, props));
+	  }
+
+	  _createClass(AddArticle, [{
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "well well-lg" },
+	        _react2.default.createElement(
+	          "h1",
+	          null,
+	          "Add Article"
+	        ),
+	        _react2.default.createElement(_WYSIWYGeditor2.default, null)
+	      );
+	    }
+	  }]);
+
+	  return AddArticle;
+	}(_react.Component);
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(AddArticle);
+
+/***/ }),
+/* 741 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var WYSIWYGeditor = function (_Component) {
+	  _inherits(WYSIWYGeditor, _Component);
+
+	  function WYSIWYGeditor(props) {
+	    _classCallCheck(this, WYSIWYGeditor);
+
+	    return _possibleConstructorReturn(this, (WYSIWYGeditor.__proto__ || Object.getPrototypeOf(WYSIWYGeditor)).call(this, props));
+	  }
+
+	  _createClass(WYSIWYGeditor, [{
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "h1",
+	        null,
+	        "WYSIWYGeditor"
+	      );
+	    }
+	  }]);
+
+	  return WYSIWYGeditor;
+	}(_react.Component);
+
+	exports.default = WYSIWYGeditor;
+
+/***/ }),
+/* 742 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -65230,11 +65428,11 @@
 	});
 	exports.default = configureStore;
 
-	var _reducers = __webpack_require__(740);
+	var _reducers = __webpack_require__(743);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
-	var _reduxThunk = __webpack_require__(742);
+	var _reduxThunk = __webpack_require__(745);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
@@ -65253,7 +65451,7 @@
 	}
 
 /***/ }),
-/* 740 */
+/* 743 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -65266,7 +65464,7 @@
 
 	var _reactRouterRedux = __webpack_require__(532);
 
-	var _article = __webpack_require__(741);
+	var _article = __webpack_require__(744);
 
 	var _article2 = _interopRequireDefault(_article);
 
@@ -65278,7 +65476,7 @@
 	});
 
 /***/ }),
-/* 741 */
+/* 744 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -65303,7 +65501,7 @@
 	exports.default = article;
 
 /***/ }),
-/* 742 */
+/* 745 */
 /***/ (function(module, exports) {
 
 	'use strict';

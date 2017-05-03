@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 const mapStateToProps = (state) => ({ ...state });
 const mapDispatchToProps = (dispatch) => ({ });
 
-class LoginView extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -49,11 +49,11 @@ class LoginView extends Component {
     return (
       <form className="form-horizontal" onSubmit={this.login}>
         <div className="form-group" style={{"padding": "0 15px"}}>
-          <label className="control-label" for="username">Username:</label>
+          <label className="control-label" htmlFor="username">Username:</label>
           <input className="form-control" ref="username" name="username" title="Username" required />
         </div>
         <div className="form-group" style={{"padding": "0 15px"}}>
-          <label className="control-label" for="password">Password:</label>
+          <label className="control-label" htmlFor="password">Password:</label>
           <input className="form-control" ref="password" type="password" name="password" title="Password" required />
         </div>
         <div className="form-group" style={{"padding": "0 15px"}}>
@@ -64,4 +64,4 @@ class LoginView extends Component {
     );
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(LoginView);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

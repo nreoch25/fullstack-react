@@ -44,23 +44,23 @@ class RegisterView extends Component {
     return(
       <form className="form-horizontal" onSubmit={this.register}>
         <div className="form-group" style={{"padding": "0 15px"}}>
-          <label className="control-label" for="username">Username:</label>
+          <label className="control-label" htmlFor="username">Username:</label>
           <input className="form-control" ref="username" name="username" title="Username" required />
         </div>
         <div className="form-group" style={{"padding": "0 15px"}}>
-          <label className="control-label" for="firstname">FirstName:</label>
+          <label className="control-label" htmlFor="firstname">FirstName:</label>
           <input className="form-control" ref="firstname" name="firstName" title="Firstname" required />
         </div>
         <div className="form-group" style={{"padding": "0 15px"}}>
-          <label className="control-label" for="lastname">LastName:</label>
+          <label className="control-label" htmlFor="lastname">LastName:</label>
           <input className="form-control" ref="lastname" name="lastName" title="Lastname" required />
         </div>
         <div className="form-group" style={{"padding": "0 15px"}}>
-          <label className="control-label" for="email">Email:</label>
+          <label className="control-label" htmlFor="email">Email:</label>
           <input className="form-control" ref="email" name="email" title="Email" required />
         </div>
         <div className="form-group" style={{"padding": "0 15px"}}>
-          <label className="control-label" for="password">Password:</label>
+          <label className="control-label" htmlFor="password">Password:</label>
           <input className="form-control" ref="password" type="password" name="password" title="Password" required />
         </div>
         <div className="form-group" style={{"padding": "0 15px"}}>
