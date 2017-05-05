@@ -38035,7 +38035,58 @@
 	    value: function getNavigationLinks() {
 	      var userIsLoggedIn = typeof localStorage !== "undefined" && localStorage.token && this.props.route !== "logout" ? true : false;
 	      console.log("USER LOGGED IN", userIsLoggedIn);
-	      //if(  )
+	      // TODO display dashboard / logout if logged in
+	      if (userIsLoggedIn === true) {
+	        return _react2.default.createElement(
+	          "ul",
+	          { className: "nav navbar-nav navbar-right" },
+	          _react2.default.createElement(
+	            "li",
+	            { id: "nav-saved" },
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { to: "/dashboard" },
+	              _react2.default.createElement("span", { className: "glyphicon glyphicon-saved right-margin" }),
+	              " Dashboard"
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "li",
+	            { id: "nav-request" },
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { to: "/logout" },
+	              _react2.default.createElement("span", { className: "glyphicon glyphicon-log-in right-margin" }),
+	              " Logout"
+	            )
+	          )
+	        );
+	      } else {
+	        return _react2.default.createElement(
+	          "ul",
+	          { className: "nav navbar-nav navbar-right" },
+	          _react2.default.createElement(
+	            "li",
+	            { id: "nav-saved" },
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { to: "/register" },
+	              _react2.default.createElement("span", { className: "glyphicon glyphicon-saved right-margin" }),
+	              " Register"
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "li",
+	            { id: "nav-request" },
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { to: "/login" },
+	              _react2.default.createElement("span", { className: "glyphicon glyphicon-log-in right-margin" }),
+	              " Login"
+	            )
+	          )
+	        );
+	      }
 	    }
 	  }, {
 	    key: "render",
@@ -38065,31 +38116,7 @@
 	          _react2.default.createElement(
 	            "div",
 	            { className: "collapse navbar-collapse", id: "myNavbar" },
-	            _react2.default.createElement(
-	              "ul",
-	              { className: "nav navbar-nav navbar-right" },
-	              this.getNavigationLinks(),
-	              _react2.default.createElement(
-	                "li",
-	                { id: "nav-saved" },
-	                _react2.default.createElement(
-	                  _reactRouter.Link,
-	                  { to: "/register" },
-	                  _react2.default.createElement("span", { className: "glyphicon glyphicon-saved right-margin" }),
-	                  " Register"
-	                )
-	              ),
-	              _react2.default.createElement(
-	                "li",
-	                { id: "nav-request" },
-	                _react2.default.createElement(
-	                  _reactRouter.Link,
-	                  { to: "/login" },
-	                  _react2.default.createElement("span", { className: "glyphicon glyphicon-log-in right-margin" }),
-	                  " Login"
-	                )
-	              )
-	            )
+	            this.getNavigationLinks()
 	          )
 	        )
 	      );
@@ -64732,13 +64759,11 @@
 	            null,
 	            title
 	          ),
-	          _react2.default.createElement("img", { src: "/static/avatar.png", height: "100" }),
 	          _react2.default.createElement(
 	            "h5",
 	            null,
 	            "Subtitle"
 	          ),
-	          _react2.default.createElement("img", { src: "/static/placeholder.jpg", height: "250" }),
 	          _react2.default.createElement(
 	            "div",
 	            null,

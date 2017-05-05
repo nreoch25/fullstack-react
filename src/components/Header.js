@@ -9,6 +9,21 @@ class Header extends Component {
     let userIsLoggedIn = (typeof localStorage !== "undefined" && localStorage.token && this.props.route !== "logout") ? true : false;
     console.log("USER LOGGED IN", userIsLoggedIn);
     // TODO display dashboard / logout if logged in
+    if(userIsLoggedIn === true) {
+      return (
+        <ul className="nav navbar-nav navbar-right">
+          <li id="nav-saved"><Link to="/dashboard"><span className="glyphicon glyphicon-saved right-margin"></span> Dashboard</Link></li>
+          <li id="nav-request"><Link to="/logout"><span className="glyphicon glyphicon-log-in right-margin"></span> Logout</Link></li>
+        </ul>
+      );
+    } else {
+      return (
+        <ul className="nav navbar-nav navbar-right">
+          <li id="nav-saved"><Link to="/register"><span className="glyphicon glyphicon-saved right-margin"></span> Register</Link></li>
+          <li id="nav-request"><Link to="/login"><span className="glyphicon glyphicon-log-in right-margin"></span> Login</Link></li>
+        </ul>
+      );
+    }
   }
   render() {
     return(
@@ -23,12 +38,8 @@ class Header extends Component {
             <Link to="/" className="navbar-brand">Publishing App</Link>
           </div>
           <div className="collapse navbar-collapse" id="myNavbar">
-            <ul className="nav navbar-nav navbar-right">
-              {this.getNavigationLinks()}
-              <li id="nav-saved"><Link to="/register"><span className="glyphicon glyphicon-saved right-margin"></span> Register</Link></li>
-              <li id="nav-request"><Link to="/login"><span className="glyphicon glyphicon-log-in right-margin"></span> Login</Link></li>
-            </ul>
-            </div>
+            {this.getNavigationLinks()}
+          </div>
         </div>
       </nav>
     );
