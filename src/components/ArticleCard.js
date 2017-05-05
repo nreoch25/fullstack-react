@@ -11,9 +11,9 @@ class ArticleCard extends Component {
       <div>
         <div className="well well-lg">
           <h2>{title}</h2>
-
+          <img src="/static/avatar.png" height="100" />
           <h5>Subtitle</h5>
-          
+          <img src="/static/placeholder.jpg" height="250" />
           <div>{content}</div>
         </div>
       </div>
