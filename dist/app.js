@@ -64759,11 +64759,13 @@
 	            null,
 	            title
 	          ),
+	          _react2.default.createElement("img", { src: "/static/avatar.jpg", height: "100" }),
 	          _react2.default.createElement(
 	            "h5",
 	            null,
 	            "Subtitle"
 	          ),
+	          _react2.default.createElement("img", { src: "/static/placeholder.jpg", height: "250" }),
 	          _react2.default.createElement(
 	            "div",
 	            null,
