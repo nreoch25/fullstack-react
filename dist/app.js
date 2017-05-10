@@ -65072,6 +65072,8 @@
 
 	var _redux = __webpack_require__(550);
 
+	var _reactRouter = __webpack_require__(469);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -65099,14 +65101,37 @@
 	  _createClass(Dashboard, [{
 	    key: "render",
 	    value: function render() {
+	      var articlesJSX = [];
+	      for (var articleKey in this.props.article) {
+	        var articleDetails = this.props.article[articleKey];
+	        var currentArticleJSX = _react2.default.createElement(
+	          "div",
+	          { key: articleKey },
+	          _react2.default.createElement(
+	            "ul",
+	            { className: "list-group" },
+	            _react2.default.createElement(
+	              "li",
+	              { className: "list-group-item" },
+	              articleDetails.articleTitle
+	            )
+	          )
+	        );
+	        articlesJSX.push(currentArticleJSX);
+	      }
 	      return _react2.default.createElement(
 	        "div",
 	        null,
 	        _react2.default.createElement(
-	          "h1",
-	          null,
-	          "Dashboard - loggedin!"
-	        )
+	          _reactRouter.Link,
+	          { to: "/add-article" },
+	          _react2.default.createElement(
+	            "button",
+	            { type: "button", className: "btn btn-info" },
+	            "CREATE AN ARTICLE"
+	          )
+	        ),
+	        articlesJSX
 	      );
 	    }
 	  }]);
