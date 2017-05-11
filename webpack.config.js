@@ -1,20 +1,20 @@
 module.exports = {
-  entry: ['babel-polyfill', './src/App.js'],
+  entry: ["babel-polyfill", "./src/App.js"],
   output: {
-    path: './dist', filename: 'app.js',
-    publicPath: '/'
+    path: "./dist", filename: "app.js",
+    publicPath: "/"
   },
   devServer: {
     inline: true,
     port: 3000,
-    contentBase: './dist' },
+    contentBase: "./dist" },
     module: {
       loaders: [ {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        loader: 'babel',
+        loader: "babel",
         query: {
-          presets: ['es2015', 'stage-0', 'react']
+          presets: ["es2015", "stage-0", "react"]
         }
       }
     ]

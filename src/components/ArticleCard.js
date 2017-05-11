@@ -14,7 +14,7 @@ class ArticleCard extends Component {
           <img src="/static/avatar.jpg" height="100" />
           <h5>Subtitle</h5>
           <img src="/static/placeholder.jpg" height="250" />
-          <div>{content}</div>
+          <div dangerouslySetInnerHTML={{__html: content}} />
         </div>
       </div>
     );
